@@ -1,21 +1,9 @@
-FROM nginx:1.19-alpine
+FROM bitnami/nginx:1.20.1
 
-LABEL maintainer="fehguy"
+MAINTAINER Rémi DEBETTE <remi.debette@axa.fr>
 
-ENV BASE_URL ""
-
-COPY nginx.conf /etc/nginx/
-
-COPY ./index.html /usr/share/nginx/html/
-COPY ./dist/oauth2-redirect.html /usr/share/nginx/html/
-COPY ./dist/* /usr/share/nginx/html/dist/
-COPY ./docker-run.sh /usr/share/nginx/
-
-
-RUN chmod +x /usr/share/nginx/docker-run.sh && \
-    chmod -R a+rw /usr/share/nginx && \
-    chmod -R a+rw /etc/nginx
+COPY ./index.html /app/
+COPY ./dist/oauth2-redirect.html /app/dist/
+COPY ./dist/* /app/dist/
 
 EXPOSE 8080
-
-CMD ["sh", "/usr/share/nginx/docker-run.sh"]
